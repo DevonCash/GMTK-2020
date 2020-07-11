@@ -63,7 +63,7 @@ export (int, 0, 200) var push = 25
 export var hackcooldownmax = .3
 export var doubleslashwindow = .1
 export var lungespeed = 800
-export var kickforce = 1400
+export var kickforce = 1800
 var hackcooldown = 0
 var doubleslashdelay = 0
 var isHacking=false
@@ -123,22 +123,19 @@ func doHack():
 	hackcooldown=hackcooldownmax
 	weapon.visible = false
 
-func _on_Blade_area_entered(area):
+func _on_Blade_body_entered(area):
 	if area.has_method("onHack"):
 		area.onHack(self,1)
 
-func _on_Kick_area_entered(area):
+func _on_Kick_body_entered(area):
 	if area.has_method("onKick") && !(area == self):
 		print("KickedOther")
-		area.onKick(self,kickforce)
+		area.onKick(self,kickforce+velocity.length())
 
-func onHack():
-	print("Player Damaged!")
+func onHack(who,damage):
+	if who == self:
+		return
 	#Play damaged/flashing animation here
 	stunned = true
 #	yield() #Yield until animation is over
 	stunned = false
-
-
-func _on_Kick_body_entered(body):
-	_on_Kick_area_entered(body)

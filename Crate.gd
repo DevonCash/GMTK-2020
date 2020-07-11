@@ -10,7 +10,8 @@ extends RigidBody2D
 func _ready():
 	pass # Replace with function body.
 
-func onHack():
+func onHack(who,damage):
+	print("hacked")
 	self.queue_free()
 
 func onKick(who,force):
