@@ -51,6 +51,7 @@ func applyMotion(accel):
 #	print(velocity)
 
 func _physics_process(delta):
+	var dir = (get_global_mouse_position() - position).normalized();
 	var dist = position.distance_to(get_global_mouse_position())
 	var theta = Vector2.DOWN.angle_to(position - get_global_mouse_position())
 	
@@ -60,35 +61,38 @@ func _physics_process(delta):
 		$AnimatedSprite.play( 'run_side' if dist > 75 else'idle_side');
 	$AnimatedSprite.flip_h = theta < 0;
 
-	var oldspeed = maxspeed #Slow down when hit
-	if stunned:
-		maxspeed = oldspeed/10
-	var axis = getInput()
-	if axis.x == 0 && !isHacking:
-		applySlowdownx(8000*delta)
-	if axis.y == 0 && !isHacking:
-		applySlowdowny(8000*delta)
-	if velocity.length() > speed:
-		if velocity.x > speed:
-			applySlowdownx(400*delta)
-		if velocity.y > speed:
-			applySlowdowny(400*delta)
-		print("Sword dash slowdown")
-	if axis && !isHacking:
-		applyMotion(axis*speed*delta)
-	
-	if !velocity: 
-		return
-#	print(velocity)
-	move_and_slide(velocity,Vector2(),false,3,0,false)
-	# after calling move_and_slide()
-	for index in get_slide_count():
-		var collision = get_slide_collision(index)
+	var velocity =  dir * clamp(speed * delta * dist, -maxspeed, maxspeed)
+	move_and_slide( velocity, Vector2.ZERO, false, 3, 0, false);
 
-		if collision.collider is RigidBody2D:
-			collision.collider.apply_central_impulse(-collision.normal * push)
+# 	var oldspeed = maxspeed #Slow down when hit
+# 	if stunned:
+# 		maxspeed = oldspeed/10
+# 	var axis = getInput()
+# 	if axis.x == 0 && !isHacking:
+# 		applySlowdownx(8000*delta)
+# 	if axis.y == 0 && !isHacking:
+# 		applySlowdowny(8000*delta)
+# 	if velocity.length() > speed:
+# 		if velocity.x > speed:
+# 			applySlowdownx(400*delta)
+# 		if velocity.y > speed:
+# 			applySlowdowny(400*delta)
+# 		print("Sword dash slowdown")
+# 	if axis && !isHacking:
+# 		applyMotion(axis*speed*delta)
 	
-	maxspeed = oldspeed
+# 	if !velocity: 
+# 		return
+# #	print(velocity)
+# 	move_and_slide(velocity,Vector2(),false,3,0,false)
+# 	# after calling move_and_slide()
+# 	for index in get_slide_count():
+# 		var collision = get_slide_collision(index)
+
+# 		if collision.collider is RigidBody2D:
+# 			collision.collider.apply_central_impulse(-collision.normal * push)
+	
+# 	maxspeed = oldspeed
 
 
 func _process(delta):

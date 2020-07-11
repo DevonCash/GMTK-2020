@@ -19,6 +19,10 @@ config/name="GMTK2020"
 run/main_scene="res://GameScene.tscn"
 config/icon="res://icon.png"
 
+[global]
+
+resolution=false
+
 [input]
 
 ui_left={
@@ -54,6 +58,10 @@ hack={
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
+
+[physics]
+
+2d/default_gravity_vector=Vector2( 0, 0 )
 
 [rendering]
 
