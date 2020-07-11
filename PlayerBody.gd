@@ -60,4 +60,3 @@ func _physics_process(delta):
 	move_and_collide(velocity*delta)
 	acceleratingx = false
 	acceleratingy = false
-	
