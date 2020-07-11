@@ -34,10 +34,11 @@ func _ready():
 #	$Tween.interpolate_property(self,"modulate",Color(3,3,3),Color(1,1,1,1),.1,Tween.TRANS_CUBIC,Tween.EASE_IN,.1)
 #	$Tween.start()
 
-func onHacked(who,damage,knockback):
+func onHacked(who, damage, knockback):
 	print("hacked")
 	if damage:
-		self.queue_free()
+		health -= damage;
+		if health <= 0: self.queue_free()
 	if knockback:
 		print("Kicked!")
 		var vector = (self.position-who.position).normalized()
