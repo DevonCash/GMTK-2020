@@ -37,6 +37,9 @@ func applyMotion(accel):
 #	print(velocity)
 
 func _physics_process(delta):
+	var oldspeed = maxspeed #Slow down when hit
+	if stunned:
+		maxspeed = oldspeed/10
 	var axis = getInput()
 	if axis.x == 0 && !isHacking:
 		applySlowdownx(8000*delta)
@@ -58,7 +61,12 @@ func _physics_process(delta):
 	# after calling move_and_slide()
 	for index in get_slide_count():
 		var collision = get_slide_collision(index)
-		collision.collider.apply_central_impulse(-collision.normal * push)
+		if collision.collider is RigidBody2D:
+			collision.collider.apply_central_impulse(-collision.normal * push)
+	
+	maxspeed = oldspeed
+
+
 export (int, 0, 200) var push = 25
 export var hackcooldownmax = .3
 export var doubleslashwindow = .1
@@ -124,18 +132,29 @@ func doHack():
 	weapon.visible = false
 
 func _on_Blade_body_entered(area):
-	if area.has_method("onHack"):
-		area.onHack(self,1)
+	if area.has_method("onHacked"):
+		area.onHacked(self,1,0)
 
 func _on_Kick_body_entered(area):
-	if area.has_method("onKick") && !(area == self):
+	if area.has_method("onHacked") && !(area == self):
 		print("KickedOther")
-		area.onKick(self,kickforce+velocity.length())
+		area.onHacked(self,0,kickforce+velocity.length())
 
-func onHack(who,damage):
+func onHacked(who,damage,knockback=0):
+	
 	if who == self:
 		return
+	print("PlayerDamaged")
+	if knockback:
+		var vector = who.position
+		self.velocity -= vector.normalized()*knockback
+	
 	#Play damaged/flashing animation here
 	stunned = true
-#	yield() #Yield until animation is over
+	$AnimationPlayer.play("PlayerDamaged")
+	yield(get_tree().create_timer(5),"timeout")
 	stunned = false
+
+
+func _on_Kick_area_entered(area):
+	pass # Replace with function body.

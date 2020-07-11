@@ -10,12 +10,11 @@ extends RigidBody2D
 func _ready():
 	pass # Replace with function body.
 
-func onHack(who,damage):
+func onHacked(who,damage,knockback):
 	print("hacked")
-	self.queue_free()
-
-func onKick(who,force):
-	pass
-	print("Kicked!")
-	var vector = (self.position-who.position).normalized()
-	self.apply_central_impulse(vector*force)
+	if damage:
+		self.queue_free()
+	if knockback:
+		print("Kicked!")
+		var vector = (self.position-who.position).normalized()
+		self.apply_central_impulse(vector*knockback)

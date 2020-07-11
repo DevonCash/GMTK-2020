@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends RigidBody2D
 
 signal hacked;
 
@@ -16,5 +16,5 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func onHacked(damage, knockback = null):
+func onHacked(who, damage, knockback = null):
 	print(damage, knockback);
