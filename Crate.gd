@@ -1,5 +1,4 @@
 extends RigidBody2D
-
 var health = 1
 
 const variants = [
@@ -28,7 +27,7 @@ func _ready():
 	$CollisionShape2D.shape.extents = form.extents;
 	health = form.health
 
-func onHack(who,damage):
+func onHack(who,damage, force):
 	health -= damage;
 	#Decrement health and suffer effects. In this case, just so I know it's working!
 	$Tween.interpolate_property(self,"modulate",Color(1,1,1),Color(3,3,3,3),.1,Tween.TRANS_CUBIC,Tween.EASE_OUT)
@@ -37,3 +36,9 @@ func onHack(who,damage):
 
 	yield($Tween, 'tween_completed')
 	if health <= 0: queue_free()
+
+func onKick(who,force):
+	pass
+	print("Kicked!")
+	var vector = (self.position-who.position).normalized()
+	self.apply_central_impulse(vector*force)
