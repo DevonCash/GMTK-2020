@@ -59,6 +59,7 @@ func _physics_process(delta):
 	for index in get_slide_count():
 		var collision = get_slide_collision(index)
 		collision.collider.apply_central_impulse(-collision.normal * push)
+		
 export (int, 0, 200) var push = 25
 export var hackcooldownmax = .3
 export var doubleslashwindow = .1

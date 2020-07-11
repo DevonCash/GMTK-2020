@@ -27,7 +27,7 @@ func _ready():
 	$CollisionShape2D.shape.extents = form.extents;
 	health = form.health
 
-func onHack(who,damage, force):
+func onHack(who, damage = 0, force = Vector2(0,0)):
 	health -= damage;
 	#Decrement health and suffer effects. In this case, just so I know it's working!
 	$Tween.interpolate_property(self,"modulate",Color(1,1,1),Color(3,3,3,3),.1,Tween.TRANS_CUBIC,Tween.EASE_OUT)
