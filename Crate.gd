@@ -27,18 +27,18 @@ func _ready():
 	$CollisionShape2D.shape.extents = form.extents;
 	health = form.health
 
-func onHack(who, damage = 0, force = Vector2(0,0)):
-	health -= damage;
+#func onHack(who, damage = 0, force = Vector2(0,0)):
+#	health -= damage;
 	#Decrement health and suffer effects. In this case, just so I know it's working!
-	$Tween.interpolate_property(self,"modulate",Color(1,1,1),Color(3,3,3,3),.1,Tween.TRANS_CUBIC,Tween.EASE_OUT)
-	$Tween.interpolate_property(self,"modulate",Color(3,3,3),Color(1,1,1,1),.1,Tween.TRANS_CUBIC,Tween.EASE_IN,.1)
-	$Tween.start()
+#	$Tween.interpolate_property(self,"modulate",Color(1,1,1),Color(3,3,3,3),.1,Tween.TRANS_CUBIC,Tween.EASE_OUT)
+#	$Tween.interpolate_property(self,"modulate",Color(3,3,3),Color(1,1,1,1),.1,Tween.TRANS_CUBIC,Tween.EASE_IN,.1)
+#	$Tween.start()
 
-	yield($Tween, 'tween_completed')
-	if health <= 0: queue_free()
-
-func onKick(who,force):
-	pass
-	print("Kicked!")
-	var vector = (self.position-who.position).normalized()
-	self.apply_central_impulse(vector*force)
+func onHacked(who,damage,knockback):
+	print("hacked")
+	if damage:
+		self.queue_free()
+	if knockback:
+		print("Kicked!")
+		var vector = (self.position-who.position).normalized()
+		self.apply_central_impulse(vector*knockback)

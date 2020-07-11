@@ -23,7 +23,7 @@ func _physics_process(delta):
 	
 	if not collided: return;
 	if collided.collider.has_method('onHacked'): 
-		collided.collider.onHacked(damage);
+		collided.collider.onHacked(self,damage,0);
 	queue_free();
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
