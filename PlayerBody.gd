@@ -53,6 +53,7 @@ func _physics_process(delta):
 	if axis && !isHacking:
 		applyMotion(axis*speed*delta)
 	
+
 	if !velocity: 
 		return
 #	print(velocity)

@@ -1,3 +1,4 @@
+
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://PlayerBody.gd" type="Script" id=1]
@@ -35,6 +36,16 @@ tracks/1/keys = {
 [sub_resource type="CircleShape2D" id=2]
 radius = 31.0
 
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://PlayerBody.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://StaticBody2D.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+
 [node name="Node2D" type="Node2D"]
 
 [node name="PlayerBody" type="KinematicBody2D" parent="."]
@@ -70,4 +81,17 @@ shape = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
 [connection signal="area_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_area_entered"]
+
+[node name="Bullet" parent="." instance=ExtResource( 3 )]
+position = Vector2( 145.473, 36.1367 )
+speed = 200
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 144.296, -87.4156 )
+shape = SubResource( 1 )
+
