@@ -100,6 +100,7 @@ func doHack():
 	hackcooldown=hackcooldownmax
 	weapon.visible = false
 
-func _on_Blade_area_entered(area):
-	if area.has_method("onHack"):
-		area.onHack(self,1)
+func _on_Blade_body_entered(node):
+	if is_a_parent_of(node): return;
+	if node.has_method("onHack"):
+		node.onHack(self,1)

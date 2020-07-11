@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://PlayerBody.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/swordslash1.png" type="Texture" id=3]
 [ext_resource path="res://TestDummy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Bullet.tscn" type="PackedScene" id=5]
-[ext_resource path="res://StaticBody2D.gd" type="Script" id=6]
+[ext_resource path="res://Crate.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Slash"
@@ -66,20 +65,18 @@ anims/Slash = SubResource( 1 )
 position = Vector2( 0, -40 )
 shape = SubResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="PlayerBody"]
-
 [node name="TestDummy" parent="." instance=ExtResource( 4 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 
-[node name="Bullet" parent="." instance=ExtResource( 5 )]
-position = Vector2( 145.473, 36.1367 )
-speed = 200
+[node name="Crate" parent="." instance=ExtResource( 5 )]
+position = Vector2( 358.482, 53.5912 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-script = ExtResource( 6 )
+[node name="Crate2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 245.506, -163.67 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 144.296, -87.4156 )
-[connection signal="area_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_area_entered"]
+[node name="Crate3" parent="." instance=ExtResource( 5 )]
+position = Vector2( -225.952, 132.53 )
+[connection signal="area_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_body_entered"]
+[connection signal="body_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_body_entered"]
