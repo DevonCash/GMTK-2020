@@ -10,7 +10,11 @@ extends RigidBody2D
 func _ready():
 	pass # Replace with function body.
 
+func onHack():
+	self.queue_free()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func onKick(who,force):
+	pass
+	print("Kicked!")
+	var vector = (self.position-who.position).normalized()
+	self.apply_central_impulse(vector*force)

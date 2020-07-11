@@ -1,10 +1,11 @@
-
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://PlayerBody.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/swordslash1.png" type="Texture" id=3]
 [ext_resource path="res://TestDummy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Crate.gd" type="Script" id=5]
+[ext_resource path="res://textures/Crates/Crate_typeB.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Slash"
@@ -36,21 +37,34 @@ tracks/1/keys = {
 [sub_resource type="CircleShape2D" id=2]
 radius = 31.0
 
-[gd_scene load_steps=6 format=2]
+[sub_resource type="Animation" id=5]
+resource_name = "Kick"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
-[ext_resource path="res://PlayerBody.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Bullet.tscn" type="PackedScene" id=3]
-[ext_resource path="res://StaticBody2D.gd" type="Script" id=4]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 30, 40 )
 
-[sub_resource type="RectangleShape2D" id=1]
-
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 22, 16 )
 
 [node name="Node2D" type="Node2D"]
 
 [node name="PlayerBody" type="KinematicBody2D" parent="."]
 position = Vector2( -304.51, -178.46 )
 script = ExtResource( 1 )
+kickforce = 2000
 
 [node name="Sprite" type="Sprite" parent="PlayerBody"]
 texture = ExtResource( 2 )
@@ -77,21 +91,34 @@ shape = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="PlayerBody"]
 
+[node name="Kick" type="Area2D" parent="PlayerBody"]
+monitoring = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerBody/Kick"]
+anims/Kick = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody/Kick"]
+position = Vector2( 0, -25 )
+shape = SubResource( 4 )
+
 [node name="TestDummy" parent="." instance=ExtResource( 4 )]
+position = Vector2( 136.665, -214.285 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 
+[node name="Crate" type="RigidBody2D" parent="."]
+mass = 10.0
+gravity_scale = 0.0
+linear_damp = 2.0
+angular_damp = 3.0
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="Crate"]
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Crate"]
+shape = SubResource( 3 )
 [connection signal="area_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_area_entered"]
-
-[node name="Bullet" parent="." instance=ExtResource( 3 )]
-position = Vector2( 145.473, 36.1367 )
-speed = 200
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-script = ExtResource( 4 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 144.296, -87.4156 )
-shape = SubResource( 1 )
-
+[connection signal="area_entered" from="PlayerBody/Kick" to="PlayerBody" method="_on_Kick_area_entered"]
+[connection signal="body_entered" from="PlayerBody/Kick" to="PlayerBody" method="_on_Kick_body_entered"]
