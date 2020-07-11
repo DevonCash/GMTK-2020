@@ -61,3 +61,30 @@ func _physics_process(delta):
 	acceleratingx = false
 	acceleratingy = false
 	
+
+export var hackcooldownmax = .1
+var hackcooldown = 0
+
+func _process(delta):
+	if Input.is_action_pressed("hack"):
+		if !hackcooldown:
+			doHack()
+		else:
+			print("Still cooling down! Wait ",hackcooldown," seconds!")
+	if hackcooldown:
+		hackcooldown = clamp(hackcooldown - delta,0,hackcooldown)
+
+func doHack():
+	var vector =  rad2deg(get_angle_to(get_global_mouse_position()))+90
+	var weapon = $Blade #Glorious nippon steel, your father's blade...
+	weapon.rotation_degrees = vector
+	weapon.visible = true
+	weapon.get_node("AnimationPlayer").play("Slash")
+	yield(weapon.get_node("AnimationPlayer"),"animation_finished")
+	weapon.visible = false
+	hackcooldown = hackcooldownmax
+
+
+func _on_Blade_area_entered(area):
+	if area.has_method("onHack"):
+		area.onHack(self,1)
