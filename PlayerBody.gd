@@ -5,10 +5,8 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 
-export var maxspeed = 300
-export var accel = 800
-export var turnaroundboost = 300
-export var friction = 1500
+export var speed=2000
+export var maxspeed = 400
 
 var velocity = Vector2()
 var acceleratingx = false
@@ -18,45 +16,90 @@ var acceleratingy = false
 func _ready():
 	pass # Replace with function body.
 
+func getInput():
+	var axis = Vector2()
+	axis.x = int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left"))
+	axis.y = int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up"))
+	return axis.normalized()
+
+func applySlowdownx(factor):
+	if velocity.x > factor:
+		velocity.x -= factor
+	else:
+		velocity.x =0
+func applySlowdowny(factor):
+	if velocity.y > factor:
+		velocity.y -= factor
+	else:
+		velocity.y = 0
+
+func applyMotion(accel):
+	velocity.x = clamp(velocity.x + accel.x,-maxspeed,maxspeed)
+	velocity.y = clamp(velocity.y + accel.y,-maxspeed,maxspeed)
+#	print(velocity)
+
 func _physics_process(delta):
-	if Input.is_action_pressed("ui_up"):
-		if velocity.y > 0:
-			if Input.is_action_just_pressed("ui_up"):
-				velocity.y -= turnaroundboost
-		velocity += Vector2(0,-accel*delta)
-		acceleratingy = true
-	if Input.is_action_pressed("ui_right"):
-		if velocity.x < 0:
-			if Input.is_action_just_pressed("ui_right"):
-				velocity.x += turnaroundboost
-		velocity += Vector2(accel*delta,0)
-		acceleratingx = true
-	if Input.is_action_pressed("ui_left"):
-		if velocity.x > 0:
-			if Input.is_action_just_pressed("ui_left"):
-				velocity.x -= turnaroundboost
-		velocity += Vector2(-accel*delta,0)
-		acceleratingx = true
-	if Input.is_action_pressed("ui_down"):
-		if velocity.y < 0:
-			if Input.is_action_just_pressed("ui_down"):
-				velocity.y += turnaroundboost
-		velocity += Vector2(0,accel*delta)
-		acceleratingy = true
-	if !acceleratingx:
-		if velocity.x > 0:
-			velocity.x = clamp(velocity.x-friction*delta,0,maxspeed)
-		else:
-			velocity.x = clamp(velocity.x+friction*delta,-maxspeed,0)
-	if !acceleratingy:
-		if velocity.y > 0:
-			velocity.y = clamp(velocity.y-friction*delta,0,maxspeed)
-		else:
-			velocity.y = clamp(velocity.y+friction*delta,-maxspeed,0)
+	var axis = getInput()
+	if axis.x == 0 && !isHacking:
+		applySlowdownx(8000*delta)
+	if axis.y == 0 && !isHacking:
+		applySlowdowny(8000*delta)
+	if velocity.length() > speed:
+		if velocity.x > speed:
+			applySlowdownx(400*delta)
+		if velocity.y > speed:
+			applySlowdowny(400*delta)
+		print("Sword dash slowdown")
+	if axis && !isHacking:
+		applyMotion(axis*speed*delta)
 	
+
+	if !velocity: 
+		return
+#	print(velocity)
+	move_and_slide(velocity)
 	
-	velocity.x = clamp(velocity.x,-maxspeed,maxspeed)
-	velocity.y = clamp(velocity.y,-maxspeed,maxspeed)
-	move_and_collide(velocity*delta)
-	acceleratingx = false
-	acceleratingy = false
+
+export var hackcooldownmax = .3
+export var doubleslashwindow = .1
+export var lungespeed = 800
+var hackcooldown = 0
+var doubleslashdelay = 0
+var isHacking=false
+
+func _process(delta):
+	update()
+	if Input.is_action_pressed("hack"):
+#		print("click!")
+		if !hackcooldown && !isHacking:
+			doHack()
+		else:
+			pass
+#			print("Still cooling down! Wait ",hackcooldown," seconds!")
+	if hackcooldown:
+		hackcooldown = clamp(hackcooldown - delta,0,hackcooldown)
+	if doubleslashdelay:
+		doubleslashdelay = clamp(doubleslashdelay-delta,0,doubleslashdelay)
+
+func _draw():
+	draw_line(Vector2(),get_local_mouse_position(),Color(1,1,1,1),3)
+
+func doHack():
+	#Basic Slash
+	var vector =  rad2deg(get_angle_to(get_global_mouse_position()))+90
+	var norm = get_angle_to(get_global_mouse_position())
+	norm = Vector2(cos(norm),sin(norm))
+	velocity = velocity + norm*lungespeed
+	var weapon = $Blade #Glorious nippon steel, your father's blade...
+	weapon.rotation_degrees = vector
+	weapon.visible = true
+	weapon.get_node("AnimationPlayer").play("Slash")
+	isHacking=true
+	yield(weapon.get_node("AnimationPlayer"),"animation_finished")
+	isHacking=false
+	hackcooldown=hackcooldownmax
+	weapon.visible = false
+
+func _on_Blade_area_entered(area):
+	if area.has_method("onHack"):
+		area.onHack(self,1)
