@@ -61,11 +61,11 @@ func _physics_process(delta):
 	# after calling move_and_slide()
 	for index in get_slide_count():
 		var collision = get_slide_collision(index)
+
 		if collision.collider is RigidBody2D:
 			collision.collider.apply_central_impulse(-collision.normal * push)
 	
 	maxspeed = oldspeed
-
 
 export (int, 0, 200) var push = 25
 export var hackcooldownmax = .3
@@ -134,6 +134,7 @@ func doHack():
 func _on_Blade_body_entered(area):
 	if area.has_method("onHacked"):
 		area.onHacked(self,1,0)
+
 
 func _on_Kick_body_entered(area):
 	if area.has_method("onHacked") && !(area == self):

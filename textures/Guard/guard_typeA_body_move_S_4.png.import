@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/crate_typeC.png-59bddad631fd8f3ae34c33ae408b8f89.stex"
+path="res://.import/guard_typeA_body_move_S_4.png-7f0c7ffa9b2893e64fe7b538f0fd22ba.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/Crates/crate_typeC.png"
-dest_files=[ "res://.import/crate_typeC.png-59bddad631fd8f3ae34c33ae408b8f89.stex" ]
+source_file="res://textures/Guard/guard_typeA_body_move_S_4.png"
+dest_files=[ "res://.import/guard_typeA_body_move_S_4.png-7f0c7ffa9b2893e64fe7b538f0fd22ba.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

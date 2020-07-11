@@ -1,11 +1,17 @@
+
 [gd_scene load_steps=14 format=2]
+
 
 [ext_resource path="res://PlayerBody.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/swordslash1.png" type="Texture" id=3]
+
 [ext_resource path="res://Crate.gd" type="Script" id=4]
 [ext_resource path="res://Bullet.tscn" type="PackedScene" id=5]
 [ext_resource path="res://StaticBody2D.gd" type="Script" id=6]
+
+[ext_resource path="res://Crate.tscn" type="PackedScene" id=5]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Slash"
@@ -56,6 +62,7 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 30, 40 )
 
+
 [sub_resource type="Animation" id=6]
 resource_name = "PlayerDamaged"
 length = 0.4
@@ -77,7 +84,6 @@ tracks/0/keys = {
 extents = Vector2( 22, 16 )
 
 [sub_resource type="RectangleShape2D" id=7]
-
 [node name="Node2D" type="Node2D"]
 
 [node name="PlayerBody" type="KinematicBody2D" parent="."]
@@ -127,6 +133,7 @@ anims/PlayerDamaged = SubResource( 6 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 
+
 [node name="Crate" type="RigidBody2D" parent="."]
 mass = 10.0
 gravity_scale = 0.0
@@ -155,3 +162,15 @@ shape = SubResource( 7 )
 [connection signal="body_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_body_entered"]
 [connection signal="area_entered" from="PlayerBody/Kick" to="PlayerBody" method="_on_Kick_body_entered"]
 [connection signal="body_entered" from="PlayerBody/Kick" to="PlayerBody" method="_on_Kick_body_entered"]
+
+[node name="Crate" parent="." instance=ExtResource( 5 )]
+position = Vector2( 358.482, 53.5912 )
+
+[node name="Crate2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 245.506, -163.67 )
+
+[node name="Crate3" parent="." instance=ExtResource( 5 )]
+position = Vector2( -225.952, 132.53 )
+[connection signal="area_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_body_entered"]
+[connection signal="body_entered" from="PlayerBody/Blade" to="PlayerBody" method="_on_Blade_body_entered"]
+
