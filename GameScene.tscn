@@ -55,10 +55,9 @@ position = Vector2( 0, -40 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 hframes = 10
-frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerBody/Blade"]
-playback_speed = 3.18
+playback_speed = 4.0
 anims/Slash = SubResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="PlayerBody/Blade"]
