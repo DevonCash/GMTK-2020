@@ -8,6 +8,20 @@ extends KinematicBody2D
 export var speed=2000
 export var maxspeed = 400
 
+export (int, 0, 200) var push = 25
+export var hackcooldownmax = .3
+export var doubleslashwindow = .1
+export var lungespeed = 800
+export var kickforce = 1800
+
+var hackcooldown = 0
+var doubleslashdelay = 0
+var isHacking=false
+var stunned
+
+var kickcooldown
+var isKicking
+
 var velocity = Vector2()
 
 # Called when the node enters the scene tree for the first time.
@@ -37,6 +51,15 @@ func applyMotion(accel):
 #	print(velocity)
 
 func _physics_process(delta):
+	var dist = position.distance_to(get_global_mouse_position())
+	var theta = Vector2.DOWN.angle_to(position - get_global_mouse_position())
+	
+	if abs(theta) < PI/2: 
+		$AnimatedSprite.play( 'run_up' if dist > 75 else 'idle_up');
+	else:
+		$AnimatedSprite.play( 'run_side' if dist > 75 else'idle_side');
+	$AnimatedSprite.flip_h = theta < 0;
+
 	var oldspeed = maxspeed #Slow down when hit
 	if stunned:
 		maxspeed = oldspeed/10
@@ -67,28 +90,12 @@ func _physics_process(delta):
 	
 	maxspeed = oldspeed
 
-export (int, 0, 200) var push = 25
-export var hackcooldownmax = .3
-export var doubleslashwindow = .1
-export var lungespeed = 800
-export var kickforce = 1800
-var hackcooldown = 0
-var doubleslashdelay = 0
-var isHacking=false
-var stunned
-
-var kickcooldown
-var isKicking
 
 func _process(delta):
 	update()
 	if Input.is_action_pressed("hack"):
-#		print("click!")
 		if !hackcooldown && !isHacking:
 			doHack()
-		else:
-			pass
-#			print("Still cooling down! Wait ",hackcooldown," seconds!")
 	if Input.is_action_pressed("kick"):
 		if !kickcooldown && !isKicking:
 			doKick()
@@ -101,8 +108,6 @@ func _draw():
 	draw_line(Vector2(),get_local_mouse_position(),Color(1,1,1,1),3)
 
 func doKick():
-#	var vector =  self.position - get_global_mouse_position().normalized()
-#	velocity=velocity+vector*10
 	var vector =  rad2deg(get_angle_to(get_global_mouse_position()))+90
 	var norm = get_angle_to(get_global_mouse_position())+2/PI
 	norm = Vector2(cos(norm),sin(norm))
@@ -134,7 +139,6 @@ func doHack():
 func _on_Blade_body_entered(area):
 	if area.has_method("onHacked"):
 		area.onHacked(self,1,0)
-
 
 func _on_Kick_body_entered(area):
 	if area.has_method("onHacked") && !(area == self):
