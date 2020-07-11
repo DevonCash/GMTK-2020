@@ -4,7 +4,7 @@ export var speed = 10;
 export var force = 10;
 export var damage = 10;
 
-var direction: Vector2 = Vector2(0, -1);
+var direction: Vector2 = Vector2.UP;
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -16,7 +16,7 @@ func _ready():
 
 func shoot(dir):
 	direction = dir;
-	self.look_at(position + direction);
+	rotation = 	Vector2.UP.angle_to(dir);
 	
 func _physics_process(delta):
 	var collided = move_and_collide(delta * direction * speed);

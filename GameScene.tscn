@@ -1,15 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://PlayerBody.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Bullet.tscn" type="PackedScene" id=3]
-[ext_resource path="res://StaticBody2D.gd" type="Script" id=4]
-
-[sub_resource type="RectangleShape2D" id=1]
+[ext_resource path="res://Guard.tscn" type="PackedScene" id=3]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="PlayerBody" type="KinematicBody2D" parent="."]
+collision_layer = 7
+collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="PlayerBody"]
@@ -21,13 +20,6 @@ polygon = PoolVector2Array( -16.2078, -21.7058, -4.3244, -25.2268, 7.99915, -25.
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 
-[node name="Bullet" parent="." instance=ExtResource( 3 )]
-position = Vector2( 145.473, 36.1367 )
+[node name="Guard" parent="." instance=ExtResource( 3 )]
+position = Vector2( -326.492, -13.6512 )
 speed = 200
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-script = ExtResource( 4 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 144.296, -87.4156 )
-shape = SubResource( 1 )

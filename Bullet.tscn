@@ -7,8 +7,9 @@
 radius = 5.70772
 
 [node name="Bullet" type="KinematicBody2D"]
-collision_layer = 3
+collision_layer = 2
 script = ExtResource( 2 )
+speed = 300
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0.5, 4 )
