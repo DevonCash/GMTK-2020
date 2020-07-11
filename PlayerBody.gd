@@ -23,28 +23,24 @@ func _physics_process(delta):
 		if velocity.y > 0:
 			if Input.is_action_just_pressed("ui_up"):
 				velocity.y -= turnaroundboost
-				print("Juice!")
 		velocity += Vector2(0,-accel*delta)
 		acceleratingy = true
 	if Input.is_action_pressed("ui_right"):
 		if velocity.x < 0:
 			if Input.is_action_just_pressed("ui_right"):
 				velocity.x += turnaroundboost
-				print("Juice!")
 		velocity += Vector2(accel*delta,0)
 		acceleratingx = true
 	if Input.is_action_pressed("ui_left"):
 		if velocity.x > 0:
 			if Input.is_action_just_pressed("ui_left"):
 				velocity.x -= turnaroundboost
-				print("Juice!")
 		velocity += Vector2(-accel*delta,0)
 		acceleratingx = true
 	if Input.is_action_pressed("ui_down"):
 		if velocity.y < 0:
 			if Input.is_action_just_pressed("ui_down"):
 				velocity.y += turnaroundboost
-				print("Juice!")
 		velocity += Vector2(0,accel*delta)
 		acceleratingy = true
 	if !acceleratingx:
