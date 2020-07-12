@@ -20,6 +20,9 @@ func _process(delta):
 	match state:
 		State.hit:
 			$AnimatedSprite.set_offset(Vector2(rng.randi_range(-3,3),rng.randi_range(-3,3)))
+			var c = $AnimatedSprite.modulate
+			$AnimatedSprite.modulate = Color(1.0, c.g - 0.25, c.b - 0.25, 1.0)
+			$AnimatedSprite.speed_scale += 1
 			state = State.hacking
 		State.hacking:
 			$AnimatedSprite.set_offset(Vector2(0,0))
@@ -29,9 +32,9 @@ func onHacked(who, damage, knockback):
 	print("hacked")
 	if damage:
 		health -= damage;
-		state = State.hit
 		if state == State.ready:
 			$AnimatedSprite.set_animation("hacked")
+		state = State.hit
 		if health <= 0: self.queue_free()
 		
 		

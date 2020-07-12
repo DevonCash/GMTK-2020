@@ -24,6 +24,7 @@ extents = Vector2( 22, 16 )
 position = Vector2( 0, -0.0801468 )
 mass = 1000.0
 physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
 linear_damp = 5.0
 angular_damp = 10.0
 script = ExtResource( 1 )

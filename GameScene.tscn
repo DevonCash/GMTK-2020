@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Obstacles/Crate/Crate.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Obstacles/Easy_Track.tscn" type="PackedScene" id=3]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="YSort"]
 scale = Vector2( 0.998721, 1 )
 
 [node name="PlayerBody" parent="." instance=ExtResource( 1 )]
@@ -14,11 +14,17 @@ hackcooldownmax = 0.5
 position = Vector2( -13.0524, 45.6249 )
 current = true
 
-[node name="Crate" parent="." instance=ExtResource( 5 )]
-position = Vector2( 68.4288, 144.117 )
+[node name="Easy_Track" parent="." instance=ExtResource( 3 )]
+position = Vector2( -290.702, -17.9371 )
 
-[node name="Crate2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 143.262, -10.8627 )
+[node name="Easy_Track" parent="Easy_Track" instance=ExtResource( 3 )]
+position = Vector2( 0.461945, -125.558 )
 
-[node name="Crate3" parent="." instance=ExtResource( 5 )]
-position = Vector2( -225.952, 132.53 )
+[node name="Easy_Track2" parent="Easy_Track" instance=ExtResource( 3 )]
+position = Vector2( 0.461945, -253.992 )
+
+[node name="Easy_Track2" parent="." instance=ExtResource( 3 )]
+position = Vector2( -290.24, 108.617 )
+
+[node name="Easy_Track3" parent="." instance=ExtResource( 3 )]
+position = Vector2( -287.859, 234.673 )
