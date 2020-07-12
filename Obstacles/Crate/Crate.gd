@@ -38,6 +38,7 @@ func onHacked(who, damage, knockback):
 	print("hacked")
 	if damage:
 		health -= damage;
+		$HitSound.play();
 		if health <= 0: self.queue_free()
 	if knockback:
 		print("Kicked!")

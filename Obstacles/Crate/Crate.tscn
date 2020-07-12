@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Obstacles/Crate/Crate.gd" type="Script" id=1]
+[ext_resource path="res://Crate.gd" type="Script" id=1]
 [ext_resource path="res://textures/Crates/Crate_typeB.png" type="Texture" id=2]
 [ext_resource path="res://textures/Crates/Crate_typeA.png" type="Texture" id=3]
 [ext_resource path="res://textures/Crates/crate_typeC.png" type="Texture" id=4]
+[ext_resource path="res://audio/crate_hit.wav" type="AudioStream" id=5]
 
 [sub_resource type="PhysicsMaterial" id=1]
 rough = true
@@ -23,7 +24,6 @@ extents = Vector2( 22, 16 )
 position = Vector2( 0, -0.0801468 )
 mass = 1000.0
 physics_material_override = SubResource( 1 )
-gravity_scale = 0.0
 linear_damp = 5.0
 angular_damp = 10.0
 script = ExtResource( 1 )
@@ -37,3 +37,6 @@ scale = Vector2( 1, 0.995463 )
 shape = SubResource( 3 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )

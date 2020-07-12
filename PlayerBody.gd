@@ -11,13 +11,25 @@ export var maxspeed = 400
 export (int, 0, 200) var push = 25
 export var hackcooldownmax = .3
 export var doubleslashwindow = .1
-export var lungespeed = 800
+
+export var lunge_duration = .1;
+export var hack_cooldown = .5;
+export var kick_cooldown = .1;
+export var dash_cooldown = .3;
+
+export var dash_mult = 2;
+export var hack_mult = 5;
+var lunge_mult = 4
+
+# export var lunging = false;
 export var kickforce = 1800
 
 var hackcooldown = 0
 var doubleslashdelay = 0
 var isHacking=false
 var stunned
+
+var lunge_dir;
 
 var kickcooldown
 var isKicking
@@ -51,6 +63,7 @@ func applyMotion(accel):
 #	print(velocity)
 
 func _physics_process(delta):
+	var dir = (get_global_mouse_position() - position).normalized();
 	var dist = position.distance_to(get_global_mouse_position())
 	var theta = Vector2.DOWN.angle_to(position - get_global_mouse_position())
 	
@@ -60,52 +73,35 @@ func _physics_process(delta):
 		$AnimatedSprite.play( 'run_side' if dist > 75 else'idle_side');
 	$AnimatedSprite.flip_h = theta < 0;
 
-	var oldspeed = maxspeed #Slow down when hit
-	if stunned:
-		maxspeed = oldspeed/10
-	var axis = getInput()
-	if axis.x == 0 && !isHacking:
-		applySlowdownx(8000*delta)
-	if axis.y == 0 && !isHacking:
-		applySlowdowny(8000*delta)
-	if velocity.length() > speed:
-		if velocity.x > speed:
-			applySlowdownx(400*delta)
-		if velocity.y > speed:
-			applySlowdowny(400*delta)
-		print("Sword dash slowdown")
-	if axis && !isHacking:
-		applyMotion(axis*speed*delta)
-	
-	if !velocity: 
-		return
-#	print(velocity)
-	move_and_slide(velocity,Vector2(),false,3,0,false)
-	# after calling move_and_slide()
-	for index in get_slide_count():
-		var collision = get_slide_collision(index)
+	var lunging = not $LungeTimer.is_stopped()
+	var lockout = not $LockoutTimer.is_stopped()
 
-		if collision.collider is RigidBody2D:
-			collision.collider.apply_central_impulse(-collision.normal * push)
-	
-	maxspeed = oldspeed
+	dir =  lunge_dir if lunging else dir;
+	var velocity =  dir * clamp(speed * delta * 1000, -maxspeed, maxspeed)
+	if lunging: velocity *= lunge_mult
+	elif lockout: velocity = Vector2.ZERO
 
+	move_and_slide( velocity, Vector2.ZERO, false, 3, 0, false);
 
 func _process(delta):
 	update()
-	if Input.is_action_pressed("hack"):
-		if !hackcooldown && !isHacking:
-			doHack()
-	if Input.is_action_pressed("kick"):
-		if !kickcooldown && !isKicking:
-			doKick()
-	if hackcooldown:
-		hackcooldown = clamp(hackcooldown - delta,0,hackcooldown)
-	if doubleslashdelay:
-		doubleslashdelay = clamp(doubleslashdelay-delta,0,doubleslashdelay)
+
+	if $LockoutTimer.is_stopped():
+		if Input.is_action_pressed("hack"):
+				doHack()
+		if Input.is_action_pressed("kick"):
+				doKick()
+	# if doubleslashdelay:
+	# 	doubleslashdelay = clamp(doubleslashdelay-delta,0,doubleslashdelay)
 
 func _draw():
 	draw_line(Vector2(),get_local_mouse_position(),Color(1,1,1,1),3)
+
+func _unhandled_input(event):
+	if event.is_action_pressed('ui_up'): dash(Vector2.UP);
+	if event.is_action_pressed('ui_down'): dash(Vector2.DOWN);
+	if event.is_action_pressed('ui_left'): dash(Vector2.LEFT);
+	if event.is_action_pressed('ui_right'): dash(Vector2.RIGHT);
 
 func doKick():
 	var vector =  rad2deg(get_angle_to(get_global_mouse_position()))+90
@@ -120,20 +116,33 @@ func doKick():
 	isKicking=false
 	kick.visible = false
 
+func lunge(dir, magnitude):
+	$LungeTimer.start(lunge_duration);
+	lunge_dir = dir;
+
+func dash(dir):
+	if not $LockoutTimer.is_stopped(): return;
+	lunge(dir, dash_mult);
+	$LockoutTimer.start(dash_cooldown);
+
 func doHack():
+	if not $LockoutTimer.is_stopped(): return;
+
 	#Basic Slash
-	var vector =  rad2deg(get_angle_to(get_global_mouse_position()))+90
-	var norm = get_angle_to(get_global_mouse_position())
-	norm = Vector2(cos(norm),sin(norm))
-	velocity = velocity + norm*lungespeed
+	var vector =  (get_global_mouse_position() - position ).normalized()
+	lunge(vector, hack_mult)
+
 	var weapon = $Blade #Glorious nippon steel, your father's blade...
-	weapon.rotation_degrees = vector
-	weapon.visible = true
-	weapon.get_node("AnimationPlayer").play("Slash")
-	isHacking=true
+	# weapon.rotation_degrees = Vector2.UP.angle_to(vector);
+	$Blade.look_at(get_global_mouse_position());
+	$Blade.rotation += PI/2;
+	$Blade.visible = true
+	$Blade/AnimationPlayer.play("Slash")
+
+	$LockoutTimer.start(hack_cooldown);
+
 	yield(weapon.get_node("AnimationPlayer"),"animation_finished")
-	isHacking=false
-	hackcooldown=hackcooldownmax
+	
 	weapon.visible = false
 
 func _on_Blade_body_entered(area):
