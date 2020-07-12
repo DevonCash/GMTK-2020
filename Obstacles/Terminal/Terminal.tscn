@@ -33,11 +33,11 @@ extents = Vector2( 12.3953, 5.37352 )
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -32 )
+position = Vector2( 0, -16 )
 frames = SubResource( 1 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 4.09474, -5.35466 )
+position = Vector2( 4.09474, 10.6453 )
 shape = SubResource( 2 )
