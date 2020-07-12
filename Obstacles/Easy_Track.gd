@@ -7,7 +7,7 @@ var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	print(get_parent().get_name())
 	rng.randomize()
 	var o = rng.randi_range(0,obstacle_list.size() - 1)
 	var obstacle = obstacle_list[o]
