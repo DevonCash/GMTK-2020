@@ -72,7 +72,7 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 30, 40 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 16 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 7 ) ],
 "loop": true,
@@ -95,7 +95,7 @@ animations = [ {
 "speed": 8.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=7]
+[sub_resource type="CapsuleShape2D" id=6]
 radius = 17.5339
 height = 13.1315
 
@@ -105,13 +105,13 @@ script = ExtResource( 3 )
 kickforce = 2000
 
 [node name="Blade" type="Area2D" parent="."]
-visible = false
 
 [node name="Sprite" type="Sprite" parent="Blade"]
 position = Vector2( 0, -40 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 10
+frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Blade"]
 playback_speed = 4.0
@@ -134,14 +134,21 @@ shape = SubResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.315643, -1.89397 )
 scale = Vector2( 2, 2 )
-frames = SubResource( 6 )
+frames = SubResource( 5 )
 animation = "run_up"
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -0.105225 )
 scale = Vector2( 1, 1.02524 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
+
+[node name="LockoutTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LungeTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="area_entered" from="Blade" to="." method="_on_Blade_body_entered"]
 [connection signal="area_entered" from="Blade" to="." method="_on_Blade_area_entered"]
 [connection signal="body_entered" from="Blade" to="." method="_on_Blade_body_entered"]

@@ -8,6 +8,7 @@ scale = Vector2( 0.998721, 1 )
 
 [node name="PlayerBody" parent="." instance=ExtResource( 1 )]
 position = Vector2( -127.578, 37.3531 )
+hackcooldownmax = 0.5
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( -13.0524, 45.6249 )
