@@ -1,18 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Camera/Camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Obstacles/Easy_Track.tscn" type="PackedScene" id=3]
 
-[node name="Node2D" type="YSort"]
+[node name="GameScene" type="YSort"]
 scale = Vector2( 0.998721, 1 )
 
 [node name="PlayerBody" parent="." instance=ExtResource( 1 )]
 position = Vector2( -127.578, 37.3531 )
 hackcooldownmax = 0.5
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( -13.0524, 45.6249 )
-current = true
 
 [node name="Easy_Track" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -256 )
@@ -30,3 +27,9 @@ position = Vector2( 0, 256 )
 
 [node name="Easy_Track6" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, 384 )
+
+[node name="Camera" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 48 )
+
+[node name="Easy_Track7" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -376 )
