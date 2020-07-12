@@ -96,11 +96,10 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=6]
-radius = 16.51
+radius = 6.25232
 height = 13.1315
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( -304.51, -178.46 )
 script = ExtResource( 3 )
 kickforce = 2000
 
@@ -122,6 +121,7 @@ position = Vector2( 0, -40 )
 shape = SubResource( 2 )
 
 [node name="Kick" type="Area2D" parent="."]
+position = Vector2( -1.86713, -15.4397 )
 monitoring = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Kick"]
@@ -132,15 +132,16 @@ position = Vector2( 0, -25 )
 shape = SubResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.315643, -1.89397 )
+position = Vector2( -2.18277, -17.3337 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 5 )
 animation = "run_up"
-frame = 5
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -0.105225 )
+position = Vector2( 0.0205975, 0.0289497 )
+rotation = 1.57079
 scale = Vector2( 1, 1.02524 )
 shape = SubResource( 6 )
 [connection signal="area_entered" from="Blade" to="." method="_on_Blade_area_entered"]
