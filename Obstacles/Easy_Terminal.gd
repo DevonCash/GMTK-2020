@@ -1,9 +1,8 @@
 extends Node2D
 
 
-#export var obstacle = "Terminal"
-#onready var obj = preload("res://" + obstacle + "/" + obstacle + ".tscn")
-onready var obj = preload("res://Obstacles/Terminal/Terminal.tscn")
+export var obstacle = "Terminal"
+onready var obj = load("res://Obstacles/" + obstacle + "/" + obstacle + ".tscn")
 var rng = RandomNumberGenerator.new()
 
 
