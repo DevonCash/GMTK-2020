@@ -23,5 +23,5 @@ func _on_Slice_Animator_frame_changed():
 
 func _on_Area2D_body_entered(body):
 	if body.has_method("onHacked"):
-		print("GGGGGG")
+		print("GGBODY")
 		body.onHacked(self, 1,0)

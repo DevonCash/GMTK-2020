@@ -7,7 +7,7 @@ func _ready():
 	$AnimatedSprite.frame = 0
 
 func _process(delta):
-	print($AnimatedSprite.frame)
+	#print($AnimatedSprite.frame)
 	if($AnimatedSprite.frame == 4):
 		queue_free()
 

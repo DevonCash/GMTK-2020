@@ -9,6 +9,7 @@ func _ready():
 	rng.randomize()
 	print("bullet is alive")
 	dir = Vector2(600, 0).rotated(rotation)
+	$Timer.start(2)
 
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
@@ -37,3 +38,7 @@ func _physics_process(delta):
 #	if(area.has_method("damage")):
 #		area.damage(power)
 	#queue_free()
+
+
+func _on_Timer_timeout():
+	queue_free()

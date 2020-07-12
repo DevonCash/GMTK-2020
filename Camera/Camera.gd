@@ -11,6 +11,8 @@ const LOW_DIST_THRESH = 110.0
 const HIGH_DIST_THRESH = 510.0
 var DIST_RANGE
 onready var EasyTrack = preload("res://Obstacles/Easy_Track.tscn")
+onready var MediumTrack = preload("res://Obstacles/Medium_Track.tscn")
+var track_index = 0
 var bomb_pos = Vector2.ZERO
 var player_pos = Vector2.ZERO
 var dist = 0
@@ -46,7 +48,8 @@ func repo(obj, pos):
 
 func _on_ScreenEdge_area_exited(area):
 	if(area.get_name() == "TrackEndTile"):
-		var track = EasyTrack.instance()
+		var track = EasyTrack.instance() if track_index == 0 else MediumTrack.instance()
+		track_index = 1 if track_index == 0 else 0
 		track.position = $TrackSpawner/SpawnPoint.global_position
 		get_parent().call_deferred("add_child", track)
 

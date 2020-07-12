@@ -4,6 +4,8 @@ export var speed=2000
 export var maxspeed = 400
 export var dash_mult = 3;
 export var hack_mult = 5;
+export var dash_cooldown = 0.3
+export var hack_cooldown = 0.3
 var lunge_mult = 4
 var can_dash = true
 var can_hack = true
@@ -18,10 +20,13 @@ export var verbose = false
 enum State {idle, running, dashing, lunging, hacking, kicking, hurt}
 var state
 var velocity = Vector2.ZERO
+var slash = ["res://audio/hack_01.wav", "res://audio/hack_02.wav"]
 onready var slash_side = preload("res://Player/hack_side.tscn") 
 onready var afterimage = preload("res://Player/DashEffect.tscn")
+var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rng.randomize()
 	font = DynamicFont.new()
 	font.font_data = load("res://textures/Fonts/Ardeco.ttf")
 	font.size = 20
@@ -57,22 +62,33 @@ func debugstatements():
 func _physics_process(delta):
 	if(verbose):
 		debugstatements()
-	update_mouse_position(delta)
-	update_blade(delta)
+	
 	match state:
 		State.running:
+			update_mouse_position(delta)
+			update_blade(delta)
+			get_input()
 			move_towards_mouse(delta)
 		State.dashing:
+			update_mouse_position(delta)
+			update_blade(delta)
+			get_input()
 			dash_move(delta)
 		State.lunging:
+			update_mouse_position(delta)
+			update_blade(delta)
+			get_input()
 			dash_move(delta)
 			spawn_hit_box()
 		State.hurt:
-			print(get_state_name())
+			#print(get_state_name())
 			move_towards_dir(delta)
 		State.hacking:
+			#update_mouse_position(delta)
+			#update_blade(delta)
+			get_input()
 			match $AnimatedSprite.frame:
-				3:
+				3 or 2:
 					if(Input.is_action_just_pressed("hack")):
 						#lung_attack
 						dash_attack()
@@ -91,12 +107,6 @@ func _physics_process(delta):
 					#dash_attack()
 	camera_ref.repo("Player", position)
 	
-func move_towards_dir(delta):
-	translate(-dir)
-
-func _process(delta):
-	get_input()
-	#update()
 	
 func get_state_name():
 	match state:
@@ -125,6 +135,10 @@ func update_mouse_position(delta):
 	dist = position.distance_to(get_global_mouse_position())
 	theta = Vector2.DOWN.angle_to(position - get_global_mouse_position())
 	
+func move_towards_dir(delta):
+	var velocity = dir * clamp(speed * delta * 2, -maxspeed, maxspeed)
+	move_and_slide(velocity, Vector2.ZERO, false, 3, 0, false)
+
 func move_towards_mouse(delta):
 	if abs(theta) < PI/2: 
 		$AnimatedSprite.play( 'run_up' if dist > 75 else 'idle_up');
@@ -153,11 +167,15 @@ func dash(dir, magnitude = 0.0):
 		dashing_dir = dir
 		state = State.dashing
 		can_dash = false
-		$DashCooldown.start(0.5 + magnitude)
-		$DashDuration.start(0.1 + magnitude)
+		$DashCooldown.start(dash_cooldown)
+		$DashDuration.start(0.2 + magnitude)
 		
 func dash_attack():
 	print("DASH_ATTACK")
+	if(rng.randi_range(0, 1) == 0):
+		$lunge1.play()
+	else:
+		$lunge2.play()
 	var vector =  (get_global_mouse_position() - position ).normalized()
 	dash(vector, 0.1)
 	$AnimatedSprite.play("lunge")
@@ -167,6 +185,10 @@ func dash_attack():
 func hack():
 	if(can_hack and state != State.hacking):
 		print("hacking")
+		if(rng.randi_range(0,1) == 0):
+			$hack1.play()
+		else:
+			$hack2.play()
 		state = State.hacking
 		can_hack = false
 		$AnimatedSprite.play("attack_down")
@@ -175,7 +197,7 @@ func hack():
 		#instantiate slash based on direction
 		spawn_hit_box()
 		#set hack cooldown
-		$HackCooldown.start(1)
+		$HackCooldown.start(hack_cooldown)
 		
 func spawn_hit_box():
 	var s = slash_side.instance()
@@ -190,6 +212,12 @@ func hit(damage, normal):
 	print("HIT BY BULLET")
 	state = State.hurt
 	dir = normal.bounce(normal)
+	$AnimatedSprite.play("hurt")
+	$AnimatedSprite.speed_scale = 3
+	if(!$HitStun.is_stopped()):
+		$HitStun.start($HitStun.time_left + (0.2 * damage))
+	else:
+		$HitStun.start(1)
 	
 
 func _on_DashCooldown_timeout():
@@ -205,3 +233,9 @@ func _on_DashDuration_timeout():
 
 func _on_HackCooldown_timeout():
 	can_hack = true
+
+
+func _on_HitStun_timeout():
+	$AnimatedSprite.speed_scale = 1
+	if(state == State.hurt):
+		state = State.running

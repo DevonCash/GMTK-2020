@@ -2,10 +2,11 @@ extends KinematicBody2D
 
 export var speed=100
 export var maxspeed = 100
+export var health = 1
 var target
 var target_position
 var rng = RandomNumberGenerator.new()
-enum State {finding, approaching, attacking, arriving, reloading}
+enum State {finding, approaching, attacking, arriving, reloading, dead}
 var state = State.arriving
 var fired_rounds = 0
 var MAX_ROUNDS = 4
@@ -13,6 +14,8 @@ var can_fire = true
 var firing_range = 200
 var distance_from_target
 onready var bullet = preload("res://Obstacles/Guard/Bullet.tscn") 
+onready var ragdoll = preload("res://Obstacles/Guard/Guard_Ragdoll.tscn")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#print("ready")
@@ -22,6 +25,10 @@ func _ready():
 
 func _physics_process(delta):
 	match state:
+		State.dead:
+			#set time out to despawn
+			#slowly fade out
+			pass
 		State.arriving:
 			move_right(delta)
 		State.finding:
@@ -45,11 +52,15 @@ func fire():
 		can_fire = false
 		fired_rounds += 1
 		#instantiate bullet
+		if rng.randi_range(0,1) == 0:
+			$shoot1.play()
+		else:
+			$shoot2.play()
 		var b = bullet.instance()
 		b.global_position = $GuardArms/Sprite/barrel.global_position
 		#b.dir = target_position
 		b.look_at(target_position)
-		owner.call_deferred("add_child", b)
+		call_deferred("add_child", b)
 		$GunCooldown.start(0.2)
 	elif fired_rounds >= MAX_ROUNDS:
 		#print("reloading..")
@@ -71,7 +82,23 @@ func update_angle():
 func move_right(delta):
 	position.x += speed * delta
 	
+
+func onHacked(who, damage, knockback):
+	print("hacked")
+	if damage:
+		health -= damage;
+		if health <= 0: die()
+
+func die():
+	print("DEAD")
+	state = State.dead
+	var rg = ragdoll.instance()
+	rg.global_position = global_position
+	print(owner)
+	get_tree().get_root().get_node("Node2D").call_deferred("add_child", rg)
+	queue_free()
 	
+
 func move_at_target(delta):
 	#print("moving towards", target)
 	var direction = target_position - global_position
