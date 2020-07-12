@@ -1,10 +1,5 @@
 extends KinematicBody2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 export var speed=2000
 export var maxspeed = 400
 
@@ -35,10 +30,12 @@ var kickcooldown
 var isKicking
 
 var velocity = Vector2()
+var afterimage = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	afterimage = load("res://Player/DashEffect.tscn")
+	doHack()
 
 func getInput():
 	var axis = Vector2()
@@ -78,7 +75,15 @@ func _physics_process(delta):
 
 	dir =  lunge_dir if lunging else dir;
 	var velocity =  dir * clamp(speed * delta * 1000, -maxspeed, maxspeed)
-	if lunging: velocity *= lunge_mult
+	if lunging:
+		print("l")
+		velocity *= lunge_mult
+		var obj = afterimage.instance()
+		obj.position = position
+		obj.flip(theta < 0)
+		var parent_node = get_parent()
+		parent_node.call_deferred("add_child", obj)  
+		
 	elif lockout: velocity = Vector2.ZERO
 
 	move_and_slide( velocity, Vector2.ZERO, false, 3, 0, false);
