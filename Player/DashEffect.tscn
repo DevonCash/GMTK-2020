@@ -16,13 +16,11 @@ animations = [ {
 } ]
 
 [node name="DashEffect" type="Node2D"]
-z_index = 30
 z_as_relative = false
 script = ExtResource( 6 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
-frame = 4
 speed_scale = 3.0
 playing = true
