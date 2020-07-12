@@ -2,7 +2,12 @@ extends Node2D
 
 
 # Called when the node enters the scene tree for the first time.
+func _ready():
+	$AnimatedSprite.play("default")
+	$AnimatedSprite.frame = 0
+
 func _process(delta):
+	print($AnimatedSprite.frame)
 	if($AnimatedSprite.frame == 4):
 		queue_free()
 
