@@ -15,16 +15,18 @@ position = Vector2( -13.0524, 45.6249 )
 current = true
 
 [node name="Easy_Track" parent="." instance=ExtResource( 3 )]
-position = Vector2( -290.702, -17.9371 )
-
-[node name="Easy_Track" parent="Easy_Track" instance=ExtResource( 3 )]
-position = Vector2( 0.461945, -125.558 )
-
-[node name="Easy_Track2" parent="Easy_Track" instance=ExtResource( 3 )]
-position = Vector2( 0.461945, -253.992 )
+position = Vector2( 0, -256 )
 
 [node name="Easy_Track2" parent="." instance=ExtResource( 3 )]
-position = Vector2( -290.24, 108.617 )
+position = Vector2( 0, -128 )
 
 [node name="Easy_Track3" parent="." instance=ExtResource( 3 )]
-position = Vector2( -287.859, 234.673 )
+
+[node name="Easy_Track4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 128 )
+
+[node name="Easy_Track5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 256 )
+
+[node name="Easy_Track6" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 384 )
