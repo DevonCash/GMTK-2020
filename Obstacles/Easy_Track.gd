@@ -7,7 +7,7 @@ var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(get_parent().get_name())
+	#print(get_parent().get_name())
 	rng.randomize()
 	var o = rng.randi_range(0,obstacle_list.size() - 1)
 	var obstacle = obstacle_list[o]
@@ -15,7 +15,7 @@ func _ready():
 	
 	#flip coin
 	var c = rng.randi_range(0,1)
-	print(c)
+	#print(c)
 	#spawn terminal in left or right
 	var pos = $EasySpawnerLeft.position if c == 0 else $EasySpawnerRight.position
 	var obs_instance = obj.instance()

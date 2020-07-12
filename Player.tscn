@@ -99,7 +99,7 @@ animations = [ {
 radius = 17.5339
 height = 13.1315
 
-[node name="PlayerBody" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D"]
 position = Vector2( -304.51, -178.46 )
 script = ExtResource( 3 )
 kickforce = 2000
@@ -136,7 +136,6 @@ position = Vector2( -0.315643, -1.89397 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 5 )
 animation = "run_up"
-frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -31,10 +31,12 @@ var isKicking
 
 var velocity = Vector2()
 var afterimage = ""
+var camera_ref
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	afterimage = load("res://Player/DashEffect.tscn")
+	camera_ref = owner.get_node("Camera")
 	doHack()
 
 func getInput():
@@ -76,7 +78,6 @@ func _physics_process(delta):
 	dir =  lunge_dir if lunging else dir;
 	var velocity =  dir * clamp(speed * delta * 1000, -maxspeed, maxspeed)
 	if lunging:
-		print("l")
 		velocity *= lunge_mult
 		var obj = afterimage.instance()
 		obj.position = position
@@ -88,6 +89,9 @@ func _physics_process(delta):
 
 	if(dist > 9.0):
 		move_and_slide( velocity, Vector2.ZERO, false, 3, 0, false);
+	camera_ref.repo("Player", position)
+	#var bomb_dist = position.distance_to(owner.get_node("Camera").get_node("Bomb").position)
+	#camera_ref.reporton(position)
 
 func _process(delta):
 	update()
