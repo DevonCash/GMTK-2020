@@ -22,7 +22,7 @@ func _process(delta):
 			$AnimatedSprite.set_offset(Vector2(rng.randi_range(-3,3),rng.randi_range(-3,3)))
 			state = State.hacking
 		State.hacking:
-			position = origin
+			$AnimatedSprite.set_offset(Vector2(0,0))
 
 func onHacked(who, damage, knockback):
 	#queue up hacking prompt

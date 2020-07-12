@@ -72,11 +72,16 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 30, 40 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 16 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "idle_side",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "idle_up",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 15 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 10 ) ],
@@ -84,22 +89,17 @@ animations = [ {
 "name": "run_side",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ) ],
-"loop": true,
-"name": "idle_up",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 20 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 22 ), ExtResource( 21 ) ],
 "loop": true,
 "name": "run_up",
 "speed": 8.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=7]
-radius = 17.5339
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 16.51
 height = 13.1315
 
-[node name="PlayerBody" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D"]
 position = Vector2( -304.51, -178.46 )
 script = ExtResource( 3 )
 kickforce = 2000
@@ -134,16 +134,17 @@ shape = SubResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.315643, -1.89397 )
 scale = Vector2( 2, 2 )
-frames = SubResource( 6 )
+frames = SubResource( 5 )
 animation = "run_up"
+frame = 5
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -0.105225 )
 scale = Vector2( 1, 1.02524 )
-shape = SubResource( 7 )
-[connection signal="area_entered" from="Blade" to="." method="_on_Blade_body_entered"]
+shape = SubResource( 6 )
 [connection signal="area_entered" from="Blade" to="." method="_on_Blade_area_entered"]
+[connection signal="area_entered" from="Blade" to="." method="_on_Blade_body_entered"]
 [connection signal="body_entered" from="Blade" to="." method="_on_Blade_body_entered"]
 [connection signal="area_entered" from="Kick" to="." method="_on_Kick_body_entered"]
 [connection signal="body_entered" from="Kick" to="." method="_on_Kick_body_entered"]

@@ -1,17 +1,18 @@
 extends Node2D
 
-
-export var obstacle = "Terminal"
-onready var obj = load("res://Obstacles/" + obstacle + "/" + obstacle + ".tscn")
+export var obstacle_list = ["Terminal", "Crate"]
+onready var obj = ""
 var rng = RandomNumberGenerator.new()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	initialize()
 	
-func initialize():
 	rng.randomize()
+	var o = rng.randi_range(0,obstacle_list.size() - 1)
+	var obstacle = obstacle_list[o]
+	obj = load("res://Obstacles/" + obstacle + "/" + obstacle + ".tscn")
+	
 	#flip coin
 	var c = rng.randi_range(0,1)
 	print(c)

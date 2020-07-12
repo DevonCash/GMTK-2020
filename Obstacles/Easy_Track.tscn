@@ -35,7 +35,7 @@ extents = Vector2( 16, 64 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 16, 64 )
 
-[node name="Easy_Terminal" type="Node2D"]
+[node name="Easy_Track" type="YSort"]
 script = ExtResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
