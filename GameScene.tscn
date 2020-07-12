@@ -7,29 +7,31 @@
 [node name="GameScene" type="YSort"]
 scale = Vector2( 0.998721, 1 )
 
-[node name="PlayerBody" parent="." instance=ExtResource( 1 )]
-position = Vector2( -127.578, 37.3531 )
-hackcooldownmax = 0.5
-
-[node name="Easy_Track" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, -256 )
+[node name="Camera" parent="." instance=ExtResource( 2 )]
 
 [node name="Easy_Track2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, -128 )
+position = Vector2( -7.62939e-06, -208 )
+
+[node name="Easy_Track" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -336 )
 
 [node name="Easy_Track3" parent="." instance=ExtResource( 3 )]
-
-[node name="Easy_Track4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, 128 )
-
-[node name="Easy_Track5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, 256 )
+position = Vector2( 0, -80 )
 
 [node name="Easy_Track6" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, 384 )
-
-[node name="Camera" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 48 )
+position = Vector2( 0, 304 )
 
 [node name="Easy_Track7" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, -376 )
+position = Vector2( 0, 432 )
+
+[node name="Easy_Track5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 176 )
+
+[node name="Easy_Track4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 48 )
+
+[node name="Easy_Track8" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -464 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( -3.05176e-05, 0 )
