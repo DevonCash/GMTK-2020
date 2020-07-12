@@ -20,7 +20,9 @@ z_as_relative = false
 script = ExtResource( 6 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -24.1329 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
+frame = 1
 speed_scale = 3.0
 playing = true

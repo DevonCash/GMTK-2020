@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Obstacles/Guard/Guard.gd" type="Script" id=1]
+[ext_resource path="res://Obstacles/Guard/GuardBody.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Obstacles/Guard/GuardHead.tscn" type="PackedScene" id=3]
+[ext_resource path="res://textures/Guard/guard_typeA_weapon.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4.907, 16.1418 )
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 5.5837
+height = 12.8805
+
+[node name="Guard" type="KinematicBody2D"]
+position = Vector2( 0, -22.4746 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GuardBody" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0.0374985, -0.409531 )
+
+[node name="GuardArms" type="KinematicBody2D" parent="."]
+position = Vector2( 0, -13.4848 )
+rotation = 1.5708
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="GuardArms"]
+position = Vector2( 18.3543, -7.62939e-06 )
+rotation = 1.5708
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+flip_v = true
+
+[node name="barrel" type="Node2D" parent="GuardArms/Sprite"]
+position = Vector2( -0.468209, -20.6017 )
+rotation = -1.5708
+scale = Vector2( 1.25, 1.25 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GuardArms"]
+position = Vector2( 19.1034, -0.37458 )
+rotation = 1.57079
+shape = SubResource( 1 )
+
+[node name="GuardHead" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0.0374985, -27.7536 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 16.8559 )
+rotation = 1.57079
+shape = SubResource( 2 )
+
+[node name="ArrivalTimer" type="Timer" parent="."]
+
+[node name="GunCooldown" type="Timer" parent="."]
+
+[node name="ReloadTimer" type="Timer" parent="."]
+[connection signal="timeout" from="ArrivalTimer" to="." method="_on_ArrivalTimer_timeout"]
+[connection signal="timeout" from="GunCooldown" to="." method="_on_GunCooldown_timeout"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_ReloadTimer_timeout"]

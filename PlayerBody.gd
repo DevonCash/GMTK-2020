@@ -147,13 +147,13 @@ func doHack():
 	$Blade.look_at(get_global_mouse_position());
 	$Blade.rotation += PI/2;
 	$Blade.visible = true
-	$Blade/AnimationPlayer.play("Slash")
+	#$Blade/AnimationPlayer.play("Slash")
 
 	$LockoutTimer.start(hack_cooldown);
 
-	yield(weapon.get_node("AnimationPlayer"),"animation_finished")
+	#yield(weapon.get_node("AnimationPlayer"),"animation_finished")
 	
-	weapon.visible = false
+	weapon.visible = true
 
 func _on_Blade_body_entered(area):
 	if area.has_method("onHacked"):

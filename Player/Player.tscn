@@ -1,0 +1,130 @@
+[gd_scene load_steps=39 format=2]
+
+[ext_resource path="res://textures/Player/player_run_right_05.png" type="Texture" id=1]
+[ext_resource path="res://textures/Player/player_run_right_03.png" type="Texture" id=2]
+[ext_resource path="res://textures/Player/player_run_up_03.png" type="Texture" id=3]
+[ext_resource path="res://textures/Player/player_run_up_04.png" type="Texture" id=4]
+[ext_resource path="res://textures/Player/player_run_right_02.png" type="Texture" id=5]
+[ext_resource path="res://textures/Player/player_run_right_04.png" type="Texture" id=6]
+[ext_resource path="res://textures/Player/player_run_right_06.png" type="Texture" id=7]
+[ext_resource path="res://textures/Player/player_idle_right_3.png" type="Texture" id=8]
+[ext_resource path="res://textures/Player/player_idle_up_3.png" type="Texture" id=9]
+[ext_resource path="res://textures/Player/player_idle_right_4.png" type="Texture" id=10]
+[ext_resource path="res://textures/Player/player_idle_right_2.png" type="Texture" id=11]
+[ext_resource path="res://textures/Player/player_idle_up_1.png" type="Texture" id=12]
+[ext_resource path="res://textures/Player/player_idle_up_4.png" type="Texture" id=13]
+[ext_resource path="res://textures/Player/player_idle_up_2.png" type="Texture" id=14]
+[ext_resource path="res://textures/Player/player_run_right_01.png" type="Texture" id=15]
+[ext_resource path="res://textures/Player/player_idle_right_1.png" type="Texture" id=16]
+[ext_resource path="res://textures/Player/player_run_up_01.png" type="Texture" id=17]
+[ext_resource path="res://textures/Player/player_run_up_05.png" type="Texture" id=18]
+[ext_resource path="res://textures/Player/player_run_up_02.png" type="Texture" id=19]
+[ext_resource path="res://textures/Player/player_run_up_06.png" type="Texture" id=20]
+[ext_resource path="res://textures/Player/player_attack_body_5.png" type="Texture" id=21]
+[ext_resource path="res://textures/Player/player_attack_body_3.png" type="Texture" id=22]
+[ext_resource path="res://textures/Player/player_attack_body_4.png" type="Texture" id=23]
+[ext_resource path="res://textures/Player/player_attack_body_1.png" type="Texture" id=24]
+[ext_resource path="res://textures/Player/player_attack_body_2.png" type="Texture" id=25]
+[ext_resource path="res://Player/Player.gd" type="Script" id=26]
+[ext_resource path="res://textures/Effects/cursor_2.png" type="Texture" id=27]
+[ext_resource path="res://textures/Effects/cursor_1.png" type="Texture" id=28]
+[ext_resource path="res://textures/Effects/cursor_3.png" type="Texture" id=29]
+[ext_resource path="res://textures/Effects/hack_right_4.png" type="Texture" id=30]
+[ext_resource path="res://textures/Player/player_dash_1.png" type="Texture" id=31]
+[ext_resource path="res://textures/Player/player_dash_4.png" type="Texture" id=32]
+[ext_resource path="res://textures/Player/player_dash_5.png" type="Texture" id=33]
+[ext_resource path="res://textures/Player/player_dash_2.png" type="Texture" id=34]
+[ext_resource path="res://textures/Player/player_dash_3.png" type="Texture" id=35]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 31 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "lunge",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 14 ), ExtResource( 9 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "idle_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 19 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 18 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "run_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 21 ), null ],
+"loop": true,
+"name": "attack_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 1 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "run_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 8 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "idle_down",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 2.00001
+height = 7.99999
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 28 ), ExtResource( 27 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Player" type="KinematicBody2D"]
+scale = Vector2( 2, 2 )
+script = ExtResource( 26 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -12 )
+frames = SubResource( 1 )
+animation = "lunge"
+frame = 2
+playing = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -2 )
+rotation = 1.57079
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Blade" type="Node2D" parent="."]
+position = Vector2( 0, -12 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Blade"]
+modulate = Color( 0, 1, 0.764706, 0.694118 )
+position = Vector2( 70, 0 )
+rotation = -4.71238
+frames = SubResource( 3 )
+frame = 1
+playing = true
+
+[node name="Sprite" type="Sprite" parent="Blade"]
+position = Vector2( 10, -3.8147e-06 )
+rotation = -4.71239
+texture = ExtResource( 30 )
+
+[node name="DashCooldown" type="Timer" parent="."]
+
+[node name="DashDuration" type="Timer" parent="."]
+
+[node name="HackCooldown" type="Timer" parent="."]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_DashCooldown_timeout"]
+[connection signal="timeout" from="DashDuration" to="." method="_on_DashDuration_timeout"]
+[connection signal="timeout" from="HackCooldown" to="." method="_on_HackCooldown_timeout"]

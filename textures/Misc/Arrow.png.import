@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/guard_typeA_head_N.png-40055b367eda494f2e9f7efa5e3ac13a.stex"
+path="res://.import/Arrow.png-7759109c67365d17e9fe456c9ccaa421.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/Guard/guard_typeA_head_N.png"
-dest_files=[ "res://.import/guard_typeA_head_N.png-40055b367eda494f2e9f7efa5e3ac13a.stex" ]
+source_file="res://textures/Misc/Arrow.png"
+dest_files=[ "res://.import/Arrow.png-7759109c67365d17e9fe456c9ccaa421.stex" ]
 
 [params]
 

@@ -79,11 +79,6 @@ animations = [ {
 "name": "idle_side",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 15 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 10 ) ],
-"loop": true,
-"name": "run_side",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "idle_up",
@@ -92,6 +87,11 @@ animations = [ {
 "frames": [ ExtResource( 20 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 22 ), ExtResource( 21 ) ],
 "loop": true,
 "name": "run_up",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "run_side",
 "speed": 8.0
 } ]
 
@@ -136,6 +136,7 @@ position = Vector2( -0.315643, -1.89397 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 5 )
 animation = "run_up"
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
