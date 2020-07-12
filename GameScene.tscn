@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Obstacles/Crate/Crate.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Obstacles/Easy_Track.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/DashEffect.tscn" type="PackedScene" id=4]
 
 [node name="Node2D" type="Node2D"]
 scale = Vector2( 0.998721, 1 )
@@ -19,3 +20,6 @@ current = true
 
 [node name="Crate" parent="." instance=ExtResource( 2 )]
 position = Vector2( 25.6432, 16.614 )
+
+[node name="DashEffect" parent="." instance=ExtResource( 4 )]
+position = Vector2( -87.4837, 22.0633 )

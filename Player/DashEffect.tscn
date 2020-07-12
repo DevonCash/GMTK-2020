@@ -1,0 +1,26 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://textures/Player/player_dash_1.png" type="Texture" id=1]
+[ext_resource path="res://textures/Player/player_dash_4.png" type="Texture" id=2]
+[ext_resource path="res://textures/Player/player_dash_3.png" type="Texture" id=3]
+[ext_resource path="res://textures/Player/player_dash_2.png" type="Texture" id=4]
+[ext_resource path="res://textures/Player/player_dash_5.png" type="Texture" id=5]
+[ext_resource path="res://Player/DashEffect.gd" type="Script" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="DashEffect" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2, 2 )
+frames = SubResource( 1 )
+frame = 4
+playing = true
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
