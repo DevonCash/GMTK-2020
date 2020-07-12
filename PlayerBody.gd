@@ -86,7 +86,8 @@ func _physics_process(delta):
 		
 	elif lockout: velocity = Vector2.ZERO
 
-	move_and_slide( velocity, Vector2.ZERO, false, 3, 0, false);
+	if(dist > 9.0):
+		move_and_slide( velocity, Vector2.ZERO, false, 3, 0, false);
 
 func _process(delta):
 	update()
